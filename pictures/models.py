@@ -28,9 +28,8 @@ class Image(models.Model):
     image = models.ImageField(upload_to='images/')
     name = models.CharField(max_length=60)
     description = models.TextField()
-    # category = models.CharField(max_length=40)
-    # location = models.CharField(max_length=40)
-
+    category = models.ForeignKey('Category', on_delete = models.CASCADE,default='')
+    location = models.ForeignKey('Location', on_delete = models.CASCADE,default='')
     def __str__(self):
         return self.name
     
@@ -42,6 +41,23 @@ class Image(models.Model):
 
     @classmethod
     def search_by_category(cls,search_term):
-        pictures = cls.objects.filter(category__icontains=search_term)
-        return pictures
-        
+        images = cls.objects.filter(category__name__icontains=search_term)
+        return images
+
+
+    @classmethod
+    def update_image(cls, id, value):
+        cls.objects.filter(id=id).update(image=value)
+
+    @classmethod
+    def get_image(cls, id):
+        image = cls.objects.filter(id=id).all()
+        return image
+
+    @classmethod
+    def filter_by_location(cls, location):
+        images = Image.objects.filter(location__name=location).all()
+        return images
+
+    
+           

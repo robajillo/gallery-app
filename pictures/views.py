@@ -2,8 +2,7 @@ from django.shortcuts import render, redirect
 from django.http  import HttpResponse,Http404
 from .models import Category, Location, Image
 
-def main(request):
-    return render(request,'index.html')
+
 
 
 def search_results(request):
@@ -15,6 +14,21 @@ def search_results(request):
         return render(request, 'search.html',{"message":message,"image": searched_category})
 
     else:
-        message = "You haven't searched for any category"
+        message = "You didn't search for any category"
         return render(request, 'search.html',{"message":message})
     
+def main(request):
+    try:        
+        images = Image.objects.all()
+        category = Category.objects.all()
+        location = Location.objects.all()
+    except DoesNotExist:
+        raise Http404()
+    return render(request,'index.html',{'images':images, 'category':category, 'location':location})
+
+def filter_by_location(request,location):
+  image= Image.filter_by_location(location)
+  
+  
+  return render(request,'location.html',{'images':image})
+  
