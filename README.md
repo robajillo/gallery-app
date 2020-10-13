@@ -8,7 +8,7 @@
 This is a Django application for personal gallery that allows a user to upload images for others. Users can also search for images based on category.
   
 ####  Live Link  
- Click [View Site]()  to visit the site
+ Click [View Site](https://gallery-application.herokuapp.com/)  to visit the site
 
  
 #### User Story  
